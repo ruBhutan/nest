@@ -28,6 +28,30 @@ let PostService = class PostService {
     getAllPosts() {
         return this.prisma.post.findMany({ include: { author: true } });
     }
+    getPostById(postId) {
+        return this.prisma.post.findUnique({
+            where: { id: postId },
+            include: { author: true },
+        });
+    }
+    getPostsByUserId(userId) {
+        return this.prisma.post.findMany({
+            where: { authorId: userId },
+            include: { author: true },
+        });
+    }
+    updatePost(postId, title, content) {
+        return this.prisma.post.update({
+            where: { id: postId },
+            data: {
+                title,
+                content,
+            },
+        });
+    }
+    deletePost(postId) {
+        return this.prisma.post.delete({ where: { id: postId } });
+    }
 };
 exports.PostService = PostService;
 exports.PostService = PostService = __decorate([
